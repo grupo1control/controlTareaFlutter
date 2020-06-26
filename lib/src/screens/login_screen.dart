@@ -7,7 +7,7 @@ class LoginScreen extends StatefulWidget{
 
   //se indica la ruta de login
   static const String routeName = '/login';
-  
+
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen>{
             SizedBox(height: 23.0),
             AppButton(
               color: Colors.lightBlueAccent,
-              onPressed: (){},
+              onPressed: (){Navigator.pushNamed(context,'/home');},
               name: "Log in",
             )
           ],
