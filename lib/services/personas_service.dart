@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class PersonasService {
   // static const API = 'http://192.168.1.108:8080/api/persona/'; // Local
-  static const API = 'http://3.128.29.238:8000/api/persona/'; //AWS
+  static const API = 'http://3.128.29.238:8001/api/persona/'; //AWS
   static const headers = {
       'Content-Type': 'application/json'
     };
