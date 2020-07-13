@@ -83,7 +83,7 @@ class _NoteListState extends State<NoteList> {
                       if (deleteResult != null && deleteResult.data == true) {
                         message = 'The note was deleted successfully';
                       } else {
-                        message = deleteResult?.errorMessage ?? 'An error occured';
+                        message = deleteResult?.errorMessage ?? 'Ha ocurrido un error';
                       }
 
                     showDialog(

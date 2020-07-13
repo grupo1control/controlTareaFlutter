@@ -6,8 +6,8 @@ import 'package:control_tareas_app/models/persona_for_listing.dart';
 import 'package:http/http.dart' as http;
 
 class PersonasService {
-  static const API = 'http://192.168.1.108:8080/api/persona/';
-  // const API = 'http://3.128.29.238:8000/api/persona/';
+  // static const API = 'http://192.168.1.108:8080/api/persona/'; // Local
+  static const API = 'http://3.128.29.238:8000/api/persona/'; //AWS
   static const headers = {
       'Content-Type': 'application/json'
     };
@@ -22,9 +22,9 @@ class PersonasService {
         }
         return APIResponse<List<PersonaForListing>>(data: persona);
       }
-      return APIResponse<List<PersonaForListing>>(error: true, errorMessage: 'An error occured');
+      return APIResponse<List<PersonaForListing>>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<List<PersonaForListing>>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<List<PersonaForListing>>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
     //Recibe una persona GET
     Future<APIResponse<Persona>> getPersona(String rut) {
@@ -33,9 +33,9 @@ class PersonasService {
         final jsonData = json.decode(data.body);
         return APIResponse<Persona>(data: Persona.fromJson(jsonData[0]));
       }
-      return APIResponse<Persona>(error: true, errorMessage: 'An error occured');
+      return APIResponse<Persona>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<Persona>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<Persona>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
     // Crear Persona POST
     Future<APIResponse<bool>> createPersona(PersonaInsert item) {
@@ -47,9 +47,9 @@ class PersonasService {
       if (data.statusCode == 201) {
         return APIResponse<bool>(data: true);
       }
-      return APIResponse<bool>(error: true, errorMessage: 'An error occured');
+      return APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
   //Update PUT
   Future<APIResponse<bool>> updatePersona(String rut, PersonaInsert item) {
@@ -60,9 +60,9 @@ class PersonasService {
       if (data.statusCode == 200) {
         return APIResponse<bool>(data: true);
       }
-      return APIResponse<bool>(error: true, errorMessage: 'An error occured');
+      return APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
   // Delete Persona
   Future<APIResponse<bool>> deletePersona(String rut) {
@@ -71,9 +71,9 @@ class PersonasService {
       if (data.statusCode == 200) {
         return APIResponse<bool>(data: true);
       }
-      return APIResponse<bool>(error: true, errorMessage: 'An error occured');
+      return APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
 }
 

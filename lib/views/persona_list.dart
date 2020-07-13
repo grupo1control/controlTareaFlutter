@@ -86,7 +86,7 @@ class _PersonaListState extends State<PersonaList> {
 
                     showDialog(
                       context: context, builder: (_) => AlertDialog(
-                        title: Text('Done'),
+                        title: Text('Listo'),
                         content: Text(message),
                         actions: <Widget>[
                           FlatButton(child: Text('Ok'), onPressed: () {

@@ -23,9 +23,9 @@ class NotesService {
         }
         return APIResponse<List<NoteForListing>>(data: notes);
       }
-      return APIResponse<List<NoteForListing>>(error: true, errorMessage: 'An error occured');
+      return APIResponse<List<NoteForListing>>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<List<NoteForListing>>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<List<NoteForListing>>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
 
   Future<APIResponse<Note>> getNote(String noteID) {
@@ -34,9 +34,9 @@ class NotesService {
         final jsonData = json.decode(data.body);
         return APIResponse<Note>(data: Note.fromJson(jsonData));
       }
-      return APIResponse<Note>(error: true, errorMessage: 'An error occured');
+      return APIResponse<Note>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<Note>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<Note>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
 
   Future<APIResponse<bool>> createNote(NoteManipulation item) {
@@ -44,9 +44,9 @@ class NotesService {
       if (data.statusCode == 201) {
         return APIResponse<bool>(data: true);
       }
-      return APIResponse<bool>(error: true, errorMessage: 'An error occured');
+      return APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
 
   Future<APIResponse<bool>> updateNote(String noteID, NoteManipulation item) {
@@ -54,9 +54,9 @@ class NotesService {
       if (data.statusCode == 204) {
         return APIResponse<bool>(data: true);
       }
-      return APIResponse<bool>(error: true, errorMessage: 'An error occured');
+      return APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
 
   Future<APIResponse<bool>> deleteNote(String noteID) {
@@ -64,8 +64,8 @@ class NotesService {
       if (data.statusCode == 204) {
         return APIResponse<bool>(data: true);
       }
-      return APIResponse<bool>(error: true, errorMessage: 'An error occured');
+      return APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'An error occured'));
+    .catchError((_) => APIResponse<bool>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
 }
