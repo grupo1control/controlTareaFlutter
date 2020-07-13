@@ -1,6 +1,6 @@
-import 'package:control_tareas_app/src/widgets/app_button.dart';
-import 'package:control_tareas_app/src/widgets/app_icon.dart';
-import 'package:control_tareas_app/src/widgets/app_textfield.dart';
+import 'package:control_tareas_app/widgets/app_button.dart';
+import 'package:control_tareas_app/widgets/app_icon.dart';
+import 'package:control_tareas_app/widgets/app_textfield.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget{

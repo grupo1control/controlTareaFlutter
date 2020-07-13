@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:control_tareas_app/src/screens/calendar_page.dart';
+import 'package:control_tareas_app/views/calendar_page.dart';
 import 'package:control_tareas_app/theme/colors/light_colors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:control_tareas_app/src/widgets/task_column.dart';
-import 'package:control_tareas_app/src/widgets/active_project_card.dart';
-import 'package:control_tareas_app/src/widgets/top_container.dart';
+import 'package:control_tareas_app/widgets/task_column.dart';
+import 'package:control_tareas_app/widgets/active_project_card.dart';
+import 'package:control_tareas_app/widgets/top_container.dart';
 
 class HomePage extends StatelessWidget {
 

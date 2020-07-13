@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:control_tareas_app/src/widgets/app_button.dart';
+import 'package:control_tareas_app/widgets/app_button.dart';
 import 'package:control_tareas_app/dates_list.dart';
 import 'package:control_tareas_app/theme/colors/light_colors.dart';
-import 'package:control_tareas_app/src/widgets/calendar_dates.dart';
-import 'package:control_tareas_app/src/widgets/task_container.dart';
-import 'package:control_tareas_app/src/screens/create_new_task_page.dart';
-import 'package:control_tareas_app/src/widgets/back_button.dart';
+import 'package:control_tareas_app/widgets/calendar_dates.dart';
+import 'package:control_tareas_app/widgets/task_container.dart';
+import 'package:control_tareas_app/views/create_new_task_page.dart';
+import 'package:control_tareas_app/widgets/back_button.dart';
 
 class CalendarPage extends StatelessWidget {
   Widget _dashedText() {

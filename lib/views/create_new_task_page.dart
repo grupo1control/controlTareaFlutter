@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:control_tareas_app/theme/colors/light_colors.dart';
-import 'package:control_tareas_app/src/widgets/top_container.dart';
-import 'package:control_tareas_app/src/widgets/back_button.dart';
-import 'package:control_tareas_app/src/widgets/my_text_field.dart';
-import 'package:control_tareas_app/src/screens/home_page.dart';
+import 'package:control_tareas_app/widgets/top_container.dart';
+import 'package:control_tareas_app/widgets/back_button.dart';
+import 'package:control_tareas_app/widgets/my_text_field.dart';
+import 'package:control_tareas_app/views/home_page.dart';
 
 class CreateNewTaskPage extends StatelessWidget {
   @override
