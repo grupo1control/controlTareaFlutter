@@ -1,15 +1,52 @@
-import 'package:flutter/material.dart';
-import 'package:control_tareas_app/views/calendar_page.dart';
 import 'package:control_tareas_app/theme/colors/light_colors.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:control_tareas_app/widgets/task_column.dart';
+import 'package:control_tareas_app/views/persona_list.dart';
 import 'package:control_tareas_app/widgets/active_project_card.dart';
+import 'package:control_tareas_app/widgets/task_column.dart';
 import 'package:control_tareas_app/widgets/top_container.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:control_tareas_app/views/login.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:control_tareas_app/views/home_page.dart';
 
-class HomePage extends StatefulWidget {
-  
-  //se indica la ruta de login
-  static const String routeName = '/home';
+import 'calendar_page.dart';
+
+class MainPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyDashboard(),
+    );
+  }
+}
+
+class MyDashboard extends StatefulWidget {
+  @override
+  _MyDashboardState createState() => _MyDashboardState();
+}
+
+class _MyDashboardState extends State<MyDashboard> {
+  SharedPreferences logindata;
+  String username;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    logindata = await SharedPreferences.getInstance();
+    setState(() {
+      username = logindata.getString('username');
+    });
+  }
 
   Text subheading(String title) {
     return Text(
@@ -34,7 +71,7 @@ class HomePage extends StatefulWidget {
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -85,7 +122,7 @@ class HomePage extends StatefulWidget {
                             children: <Widget>[
                               Container(
                                 child: Text(
-                                  'Sebastian Velásquez',
+                                  '$username',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontSize: 24.0,
@@ -221,9 +258,50 @@ class HomePage extends StatefulWidget {
     );
   }
 
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text("Shared Preference Example"),
+  //     ),
+  //     body: Padding(
+  //       padding: const EdgeInsets.all(26.0),
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: <Widget>[
+  //           Center(
+  //             child: Text(
+  //               'WELCOME TO La Pulenta APP  $username',
+  //               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+  //             ),
+  //           ),
+  //           RaisedButton(
+  //             onPressed: () {
+  //               logindata.setBool('login', true);
+  //               Navigator.pushReplacement(context,
+  //                   new MaterialPageRoute(builder: (context) => MyLoginPage()));
+  //             },
+  //             child: Text('LogOut'),
+  //           ),
+  //           RaisedButton(
+  //             onPressed: () {
+  //               logindata.setBool('login', false);
+  //               Navigator.pushReplacement(context,
+  //                   new MaterialPageRoute(builder: (context) => PersonaList()));
+  //             },
+  //             child: Text('Lista Personas'),
+  //           ),
+  //           RaisedButton(
+  //             onPressed: () {
+  //               logindata.setBool('login', false);
+  //               Navigator.pushReplacement(context,
+  //                   new MaterialPageRoute(builder: (context) => HomePage()));
+  //             },
+  //             child: Text('Hipster Home'),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

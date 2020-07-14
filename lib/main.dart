@@ -9,6 +9,7 @@ import 'package:control_tareas_app/views/home_page.dart';
 import 'package:get_it/get_it.dart';
 import 'package:control_tareas_app/services/notes_service.dart';
 import 'package:control_tareas_app/views/note_list.dart';
+import 'package:control_tareas_app/views/login.dart';
 
 void setupLocator() {
  // GetIt.I.registerLazySingleton(() => NotesService());
@@ -31,8 +32,9 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-//      home: NoteList(),
-    home: PersonaList(),
+//    home: NoteList(),  // Original example
+//    home: PersonaList(), // Persona CRUD
+      home: MyApp(),
 
     );
   }
