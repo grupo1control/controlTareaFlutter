@@ -1,6 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'mainpage.dart';
+import 'package:control_tareas_app/services/usuarios_service.dart';
+import 'package:get_it/get_it.dart';
+import 'package:control_tareas_app/models/api_response.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,6 +29,11 @@ class MyLoginPage extends StatefulWidget {
 }
 
 class _MyLoginPageState extends State<MyLoginPage> {
+
+  UsuarioService get service => GetIt.I<UsuarioService>();
+  APIResponse _apiResponse;
+  bool _isLoading = false;
+  FlutterToast flutterToast;
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final username_controller = TextEditingController();
@@ -36,10 +46,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    check_if_already_login();
+    checkIfAlreadyLogin();
+    _fetchUsuarios();
+    flutterToast = FlutterToast(context);
+    
   }
 
-  void check_if_already_login() async {
+  void checkIfAlreadyLogin() async {
     logindata = await SharedPreferences.getInstance();
     newuser = (logindata.getBool('login') ?? true);
 
@@ -48,6 +61,18 @@ class _MyLoginPageState extends State<MyLoginPage> {
       Navigator.pushReplacement(
           context, new MaterialPageRoute(builder: (context) => MyDashboard()));
     }
+  }
+  _fetchUsuarios() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    _apiResponse = await service.getUsuariosList();
+
+    setState(() {
+      _isLoading = false;
+    });
+
   }
 
   @override
@@ -62,7 +87,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" La App más pulenta"),
+        title: Text("Control tareas"),
       ),
       body: Center(
         child: Column(
@@ -72,17 +97,13 @@ class _MyLoginPageState extends State<MyLoginPage> {
               "Login",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-            Text(
-              "To show Example of Shared Preferences",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextField(
                 controller: username_controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'username',
+                  labelText: 'usuario',
                 ),
               ),
             ),
@@ -92,7 +113,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 controller: password_controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Password',
+                  labelText: 'correo',
                 ),
               ),
             ),
@@ -102,15 +123,17 @@ class _MyLoginPageState extends State<MyLoginPage> {
               onPressed: () {
                 String username = username_controller.text;
                 String password = password_controller.text;
-
-                if (username != '' && password != '') {
+                int index = 0; 
+                if (username == _apiResponse.data[index].nombre  && password == _apiResponse.data[index].correo) {
                   print('Successfull');
                   logindata.setBool('login', false);
 
-                  logindata.setString('username', username);
+                  logindata.setString('usuario', username);
 
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MyDashboard()));
+                }else{
+                  _showToast();
                 }
               },
               child: Text("Log-In"),
@@ -120,4 +143,31 @@ class _MyLoginPageState extends State<MyLoginPage> {
       ),
     );
   }
+
+  _showToast() {
+    Widget toast = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+        decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.greenAccent,
+        ),
+        child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+            Icon(Icons.check),
+            SizedBox(
+            width: 12.0,
+            ),
+            Text("¡Credenciales incorrectas! Intente nuevamente"),
+        ],
+        ),
+    );
+
+
+    flutterToast.showToast(
+        child: toast,
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: Duration(seconds: 2),
+    );
+}
 }

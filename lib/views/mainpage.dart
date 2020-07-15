@@ -90,8 +90,15 @@ class _MyDashboardState extends State<MyDashboard> {
                       children: <Widget>[
                         Icon(Icons.menu,
                             color: LightColors.kDarkBlue, size: 30.0),
-                        Icon(Icons.search,
-                            color: LightColors.kDarkBlue, size: 25.0),
+                        
+                        RaisedButton(
+                        onPressed: () {
+                          logindata.setBool('login', true);
+                          Navigator.pushReplacement(context,
+                          new MaterialPageRoute(builder: (context) => MyLoginPage()));
+                          },
+                          child: Text('LogOut'),
+                        )
                       ],
                     ),
                     Padding(
@@ -133,7 +140,7 @@ class _MyDashboardState extends State<MyDashboard> {
                               ),
                               Container(
                                 child: Text(
-                                  'App Developer',
+                                  'Funcionario',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontSize: 16.0,

@@ -1,19 +1,13 @@
 import 'package:control_tareas_app/services/personas_service.dart';
-import 'package:control_tareas_app/views/home_page.dart';
-import 'package:control_tareas_app/views/persona_list.dart';
-import 'package:control_tareas_app/views/registration_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:control_tareas_app/views/login_screen.dart';
-import 'package:control_tareas_app/views/welcome_screen.dart';
-import 'package:control_tareas_app/views/home_page.dart';
 import 'package:get_it/get_it.dart';
-import 'package:control_tareas_app/services/notes_service.dart';
-import 'package:control_tareas_app/views/note_list.dart';
 import 'package:control_tareas_app/views/login.dart';
+import 'package:control_tareas_app/services/usuarios_service.dart';
 
 void setupLocator() {
  // GetIt.I.registerLazySingleton(() => NotesService());
        GetIt.I.registerLazySingleton(() => PersonasService());
+       GetIt.I.registerLazySingleton(() => UsuarioService());
 
 }
 
