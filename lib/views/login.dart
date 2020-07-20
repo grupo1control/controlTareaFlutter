@@ -6,22 +6,7 @@ import 'package:control_tareas_app/services/usuarios_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:control_tareas_app/models/api_response.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyLoginPage(),
-    );
-  }
-}
+import 'package:control_tareas_app/models/usuario_for_listing.dart';
 
 class MyLoginPage extends StatefulWidget {
   @override
@@ -34,23 +19,36 @@ class _MyLoginPageState extends State<MyLoginPage> {
   APIResponse _apiResponse;
   bool _isLoading = false;
   FlutterToast flutterToast;
+List<UsuarioForListing> _matchUsuario = [];  
+    @override
+  void initState() {  
+    _fetchUsuarios();
+    super.initState();
+    checkIfAlreadyLogin();
+
+  }
+    _fetchUsuarios() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    _apiResponse = await service.getUsuariosList();
+
+    // setState(() {
+    //   _isLoading = false;
+    // });
+  }
+    
+    //flutterToast = FlutterToast(context);
+    
+  
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final username_controller = TextEditingController();
-  final password_controller = TextEditingController();
+  final correo_controller = TextEditingController();
 
   SharedPreferences logindata;
   bool newuser;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    checkIfAlreadyLogin();
-    _fetchUsuarios();
-    flutterToast = FlutterToast(context);
-    
-  }
 
   void checkIfAlreadyLogin() async {
     logindata = await SharedPreferences.getInstance();
@@ -59,28 +57,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
     print(newuser);
     if (newuser == false) {
       Navigator.pushReplacement(
-          context, new MaterialPageRoute(builder: (context) => MyDashboard()));
+          context, new MaterialPageRoute(builder: (context) => AsignacionList()));
     }
-  }
-  _fetchUsuarios() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    _apiResponse = await service.getUsuariosList();
-
-    setState(() {
-      _isLoading = false;
-    });
-
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    username_controller.dispose();
-    password_controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -110,7 +88,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextField(
-                controller: password_controller,
+                controller: correo_controller,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'correo',
@@ -122,16 +100,18 @@ class _MyLoginPageState extends State<MyLoginPage> {
               color: Colors.blue,
               onPressed: () {
                 String username = username_controller.text;
-                String password = password_controller.text;
+                String correo = correo_controller.text;
+                MatchUser();
                 int index = 0; 
-                if (username == _apiResponse.data[index].nombre  && password == _apiResponse.data[index].correo) {
+                if (username == _matchUsuario[index].nombre  && correo == _matchUsuario[index].correo) {
                   print('Successfull');
-                  logindata.setBool('login', false);
-
+                  logindata.setBool('login', false); //Guarda los datos de Usuario en Memoria
                   logindata.setString('usuario', username);
+                  logindata.setString('idUsuario', _matchUsuario[index].id.toString());
+
 
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyDashboard()));
+                      MaterialPageRoute(builder: (context) => AsignacionList()));
                 }else{
                   _showToast();
                 }
@@ -143,6 +123,21 @@ class _MyLoginPageState extends State<MyLoginPage> {
       ),
     );
   }
+
+         //Hace el Match del Usuario ingresado con el Usuario en la BD
+            MatchUser(){
+              List<UsuarioForListing> tmp = [];
+              _matchUsuario.clear();
+              tmp = [];
+              for (UsuarioForListing userMatch in _apiResponse.data){
+                if (userMatch.nombre == username_controller.text && userMatch.correo == correo_controller.text) {
+                  tmp.add(userMatch);
+                }
+              _matchUsuario = tmp;
+
+              }
+                  debugPrint(_matchUsuario.toString());
+            }
 
   _showToast() {
     Widget toast = Container(

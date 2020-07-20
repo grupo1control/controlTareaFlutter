@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:control_tareas_app/models/usuario.dart';
+import 'package:control_tareas_app/models/usuario_for_listing.dart';
 import 'package:control_tareas_app/models/api_response.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,19 +12,19 @@ class UsuarioService {
 
   
   // Recibe Listado GET
-  Future<APIResponse<List<Usuario>>> getUsuariosList() {
+  Future<APIResponse<List<UsuarioForListing>>> getUsuariosList() {
     return http.get(API + 'lista', headers: headers).then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
-        final usuario = <Usuario>[];
+        final usuario = <UsuarioForListing>[];
         for (var item in jsonData) {
-          usuario.add(Usuario.fromJson(item));
+          usuario.add(UsuarioForListing.fromJson(item));
         }
-        return APIResponse<List<Usuario>>(data: usuario);
+        return APIResponse<List<UsuarioForListing>>(data: usuario);
       }
-      return APIResponse<List<Usuario>>(error: true, errorMessage: 'Ha ocurrido un error');
+      return APIResponse<List<UsuarioForListing>>(error: true, errorMessage: 'Ha ocurrido un error');
     })
-    .catchError((_) => APIResponse<List<Usuario>>(error: true, errorMessage: 'Ha ocurrido un error'));
+    .catchError((_) => APIResponse<List<UsuarioForListing>>(error: true, errorMessage: 'Ha ocurrido un error'));
   }
 
 

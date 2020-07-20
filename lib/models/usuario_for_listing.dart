@@ -1,6 +1,6 @@
 //import 'package:control_tareas_app/models/persona.dart';
 
-class Usuario {
+class UsuarioForListing {
   int id;
   String nombre;
   String correo;
@@ -13,12 +13,12 @@ class Usuario {
   DateTime creado;
   DateTime modificado;
 
-  Usuario({this.id, this.nombre, this.correo, this.clave, this.administrador, this.disennador, this.funcionario, 
+  UsuarioForListing({this.id, this.nombre, this.correo, this.clave, this.administrador, this.disennador, this.funcionario, 
   this.integrantes, this.fkPersona, this.creado, this.modificado});
 
-  factory Usuario.fromJson(Map<String, dynamic> item){
+  factory UsuarioForListing.fromJson(Map<String, dynamic> item){
 
-    return Usuario(
+    return UsuarioForListing(
       id: item['id'] as int,
       nombre: item['nombre'],
       correo: item['correo'],

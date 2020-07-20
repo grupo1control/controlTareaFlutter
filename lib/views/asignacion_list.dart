@@ -1,20 +1,10 @@
-import 'package:control_tareas_app/theme/colors/light_colors.dart';
-import 'package:control_tareas_app/views/persona_list.dart';
-import 'package:control_tareas_app/widgets/active_project_card.dart';
-import 'package:control_tareas_app/widgets/task_column.dart';
-import 'package:control_tareas_app/widgets/top_container.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:control_tareas_app/models/asignacion_for_listing.dart';
 import 'package:flutter/material.dart';
-import 'package:control_tareas_app/views/persona_delete.dart';
-import 'package:control_tareas_app/views/login.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:control_tareas_app/views/home_page.dart';
+import 'package:get_it/get_it.dart';
 import 'package:control_tareas_app/models/api_response.dart';
 import 'package:control_tareas_app/services/asignaciones_service.dart';
-import 'package:control_tareas_app/models/asignacion_for_listing.dart';
-import 'package:get_it/get_it.dart';
-import 'calendar_page.dart';
+import 'package:control_tareas_app/views/persona_delete.dart';
+import 'persona_modify.dart';
 
 class AsignacionList extends StatefulWidget {
   @override
@@ -24,12 +14,10 @@ class AsignacionList extends StatefulWidget {
 class _AsignacionListState extends State<AsignacionList> {
   AsignacionesService get service => GetIt.I<AsignacionesService>();
 
-  SharedPreferences logindata;
-  String username;
-  String idUser;
   APIResponse _apiResponse;
   bool _isLoading = false;
   List<AsignacionForListing> _asignacionesPorUsuario = []; // Lista Filtrada
+  int _codigoUsuario = 13;                                 // Código Usuario Logueado
 
   String formatDateTime(DateTime dateTime) {
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
@@ -40,13 +28,10 @@ class _AsignacionListState extends State<AsignacionList> {
     _fetchAsignaciones();
     super.initState();
   }
+
   _fetchAsignaciones() async {
-    logindata = await SharedPreferences.getInstance();
     setState(() {
       _isLoading = true;
-      username = logindata.getString('usuario');
-      idUser = logindata.getString('idUsuario');
-
     });
 
     _apiResponse = await service.getAsignacionesList();
@@ -58,50 +43,19 @@ class _AsignacionListState extends State<AsignacionList> {
     });
   }
 
-  void initial() async {
-    setState(() {
-      username = logindata.getString('usuario');
-    });
-  }
-
-  Text subheading(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-          color: LightColors.kDarkBlue,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.2),
-    );
-  }
-
-  static CircleAvatar calendarIcon() {
-    return CircleAvatar(
-      radius: 25.0,
-      backgroundColor: LightColors.kGreen,
-      child: Icon(
-        Icons.calendar_today,
-        size: 20.0,
-        color: Colors.white,
-      ),
-    );
-  }
-
-@override
-  // Widget build(BuildContext context) {
-    @override
+  @override
   Widget build(BuildContext context) {
     //filtrarAsignaciones();
     return Scaffold(
         appBar: AppBar(title: Text('Lista de asignaciones')),
         floatingActionButton: FloatingActionButton(
-          // onPressed: () {
-          //   Navigator.of(context)
-          //       .push(MaterialPageRoute(builder: (_) => PersonaModify()))
-          //       .then((_) {
-          //         _fetchAsignaciones();
-          //       });
-          // },
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => PersonaModify()))
+                .then((_) {
+                  _fetchAsignaciones();
+                });
+          },
           child: Icon(Icons.add),
         ),
         body: Builder(
@@ -182,13 +136,13 @@ class _AsignacionListState extends State<AsignacionList> {
           },
         ));
   }
-  //Filtrar Asignaciones por Usuario
+          //Filtrar Asignaciones por Usuario
             filtrarAsignaciones(){
               List<AsignacionForListing> tmp = [];
               _asignacionesPorUsuario.clear();
               tmp = [];
               for (AsignacionForListing asig in _apiResponse.data){
-                if (asig.pkAsignacion.fkIntegrante.pkIntegrante.fkUsuario.id == int.parse(idUser)){
+                if (asig.pkAsignacion.fkIntegrante.pkIntegrante.fkUsuario.id == _codigoUsuario){
                   tmp.add(asig);
                 }
               _asignacionesPorUsuario = tmp;
@@ -196,5 +150,4 @@ class _AsignacionListState extends State<AsignacionList> {
               }
                   debugPrint(_asignacionesPorUsuario.toString());
             }
-
 }
